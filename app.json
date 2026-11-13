@@ -1,0 +1,19 @@
+{
+  "name": "kiro98-games",
+  "version": "0.1.0",
+  "displayName": "Kiro 98 Games",
+  "description": "A late-90s desktop page with original games, starting with Klondike Solitaire. Pairs with the Kiro 98 theme pack.",
+  "author": "mimjasov",
+  "iconPath": "assets/icon.png",
+  "tags": ["games", "retro", "theme"],
+  "ui": {
+    "entry": "index.mjs",
+    "pages": [
+      {
+        "route": "/apps/kiro98-games",
+        "label": "Kiro 98 Games",
+        "icon": "Gamepad2"
+      }
+    ]
+  }
+}

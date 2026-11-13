@@ -1,0 +1,126 @@
+<div class="k98s" id="k98s">
+<style>
+.k98s{--cw:70px;font:12px/1.25 Tahoma,"Segoe UI",system-ui,sans-serif;color:#000;background:#c0c0c0;max-width:780px;margin:0 auto;padding:3px;box-shadow:inset -1px -1px #0a0a0a,inset 1px 1px #dfdfdf,inset -2px -2px #808080,inset 2px 2px #fff;user-select:none;-webkit-user-select:none}
+.k98s *{box-sizing:border-box}
+.k98s .tb{display:flex;align-items:center;gap:6px;height:22px;padding:0 4px;background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font-weight:700}
+.k98s .tb img{width:14px;height:15px;image-rendering:pixelated}
+.k98s .tb .x{min-height:0;width:18px;height:16px;padding:0;font:700 10px/1 Tahoma,sans-serif}
+.k98s [hidden]{display:none!important}
+.k98s .mb{display:flex;flex-wrap:wrap;gap:4px;padding:4px 2px}
+.k98s button{font:inherit;color:#000;background:#c0c0c0;border:0;padding:3px 10px;min-height:23px;cursor:pointer;box-shadow:inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px #808080,inset 2px 2px #dfdfdf}
+.k98s button:active:not(:disabled),.k98s button[aria-pressed=true]{background:#dfdfdf;box-shadow:inset 1px 1px #0a0a0a,inset -1px -1px #fff,inset 2px 2px #808080,inset -2px -2px #dfdfdf}
+.k98s button:disabled{color:#808080;text-shadow:1px 1px #fff;cursor:default}
+.k98s button:focus-visible{outline:1px dotted #000;outline-offset:-4px}
+.k98s .help{display:none;margin:0 2px 4px;padding:6px 8px;background:#ffffe1;color:#000;border:1px solid #000}
+.k98s .help.on{display:block}
+.k98s .felt{position:relative;overflow:hidden;margin:0 2px;background:#0b7a3a;color:#fff;touch-action:none;box-shadow:inset 1px 1px #808080,inset -1px -1px #fff,inset 2px 2px #0a0a0a,inset -2px -2px #dfdfdf}
+.k98s .slot{position:absolute;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,.45);border-radius:5px;background:rgba(0,0,0,.12);color:rgba(255,255,255,.45);font-weight:700;font-size:calc(var(--cw)*.36)}
+.k98s .card{position:absolute;width:var(--cw);height:calc(var(--cw)*1.42);border:1px solid #000;border-radius:5px;background:#fff;color:#000;cursor:pointer;touch-action:none}
+.k98s .card.red{color:#c00000}
+.k98s .card .tl,.k98s .card .br{position:absolute;font:700 calc(var(--cw)*.21)/.95 Georgia,"Times New Roman",serif;text-align:center}
+.k98s .card .tl{left:3px;top:3px}
+.k98s .card .br{right:3px;bottom:3px;transform:rotate(180deg)}
+.k98s .card .mid{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:calc(var(--cw)*.5)}
+.k98s .card.back{cursor:default;background:var(--ghost) center/50% no-repeat,repeating-linear-gradient(45deg,#000080 0 4px,#1a3aa8 4px 8px);box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 4px #000080}
+.k98s .card.back.stock{cursor:pointer}
+.k98s .card.sel{box-shadow:0 0 0 2px #ffff00;filter:brightness(.86)}
+.k98s .card.drag{pointer-events:none;box-shadow:3px 3px 0 rgba(0,0,0,.35)}
+.k98s .sb{display:flex;gap:3px;padding:3px 2px 1px}
+.k98s .sb span{flex:1;padding:2px 6px;box-shadow:inset 1px 1px #808080,inset -1px -1px #fff}
+.k98s .dlg{position:absolute;left:50%;top:38%;z-index:2000;width:min(320px,90%);transform:translate(-50%,-50%);padding:3px;background:#c0c0c0;color:#000;box-shadow:inset -1px -1px #0a0a0a,inset 1px 1px #dfdfdf,inset -2px -2px #808080,inset 2px 2px #fff,4px 4px 0 rgba(0,0,0,.4)}
+.k98s .dlg .body{display:flex;gap:12px;align-items:center;padding:12px}
+.k98s .dlg .body img{width:28px;height:30px;image-rendering:pixelated}
+.k98s .dlg .act{display:flex;justify-content:center;padding:0 0 8px}
+.k98s .fx{position:absolute;top:-40px;z-index:1500;font-size:28px;pointer-events:none;animation:k98fall 2.8s linear forwards}
+@keyframes k98fall{to{transform:translateY(620px) rotate(540deg);opacity:.15}}
+</style>
+<div class="tb"><img id="k98i" alt=""><span style="flex:1">Kiro 98 Solitaire</span><button id="bClose" class="x" aria-label="Close" hidden>&#x2715;</button></div>
+<div class="mb"><button id="bNew">New game</button><button id="bUndo">Undo</button><button id="bDraw" aria-pressed="false">Draw 3</button><button id="bAuto">Auto finish</button><button id="bHelp" aria-pressed="false">How to play</button></div>
+<div class="help" id="help">Build the four piles at the top up by suit, Ace to King. In the seven columns, stack cards down in alternating colors; only a King can fill an empty column. Click the deck to deal. Drag cards, or click a card and then click where it goes. Double-click a card to move it automatically: to its suit pile if it fits, otherwise onto a column that takes it. <b>Draw 3</b> deals three at a time (harder). Undo any time.</div>
+<div class="felt" id="felt"></div>
+<div class="sb"><span id="sScore">Score: 0</span><span id="sTime">Time: 0</span><span id="sMoves">Moves: 0</span></div>
+</div>
+<script>
+const SU=['♠︎','♥︎','♦︎','♣︎'],NM=['spades','hearts','diamonds','clubs'],RK=['','A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+const GH=['....KKKKKK....','..KKWWWWWWKK..','.KWWWWWWWWWWK.','.KWWWWWWWWWWK.','KWWWEEWWEEWWWK','KWWWEEWWEEWWWK','KWWWWWWWWWWWWK','KWWWWWWWWWWWWK','KWWWWWWWWWWWWK','KWWWWWWWWWWWWK','KWWWWWWWWWWWWK','KWWWWWWWWWWWWK','KWWKKWWWWKKWWK','KWK..KWWK..KWK','KK....KK....KK'];
+const $=id=>document.getElementById(id),F=$('felt'),RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let S=null,U=[],sel=null,down=null,drag=null,last=null,timer=null,secs=0,fx=false,GU='';
+(function(){let r='';GH.forEach((row,y)=>{for(let x=0;x<row.length;){const c=row[x];let n=1;while(row[x+n]===c)n++;if(c!=='.')r+=`<rect x="${x}" y="${y}" width="${n}" height="1" fill="${c==='W'?'#fff':'#0a0a0a'}"/>`;x+=n}});
+GU='data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 15" shape-rendering="crispEdges">${r}</svg>`);
+$('k98s').style.setProperty('--ghost',`url("${GU}")`);$('k98i').src=GU})();
+const red=c=>c.s===1||c.s===2;
+const pile=(p,i)=>p==='tab'?S.tab[i]:p==='found'?S.found[i]:S[p];
+function save(){U.push(JSON.stringify(S));if(U.length>300)U.shift()}
+function undo(){if(!U.length)return;S=JSON.parse(U.pop());sel=null;render()}
+function startT(){if(timer||S.won)return;timer=setInterval(()=>{secs++;$('sTime').textContent='Time: '+secs},1000)}
+function stopT(){clearInterval(timer);timer=null}
+function deal(){const d=[];for(let s=0;s<4;s++)for(let r=1;r<=13;r++)d.push({s,r,up:false});
+for(let i=d.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[d[i],d[j]]=[d[j],d[i]]}
+S={n:S?S.n:1,stock:[],waste:[],found:[[],[],[],[]],tab:[[],[],[],[],[],[],[]],score:0,moves:0,won:false};
+for(let t=0;t<7;t++)for(let k=0;k<=t;k++){const c=d.pop();c.up=k===t;S.tab[t].push(c)}
+S.stock=d;U=[];sel=null;secs=0;stopT();render()}
+function movable(p,i,idx){const a=pile(p,i);if(!a||idx<0||idx>=a.length)return false;if(p==='tab')return a[idx].up;return(p==='waste'||p==='found')&&idx===a.length-1}
+function canPlace(m,dp,di){const a=pile(dp,di),t=a&&a[a.length-1],c=m[0];
+if(dp==='found')return m.length===1&&(t?t.s===c.s&&c.r===t.r+1:c.r===1);
+if(dp==='tab')return t?t.up&&red(t)!==red(c)&&c.r===t.r-1:c.r===13;return false}
+function move(src,dp,di){if(S.won||(src.p===dp&&src.i===di)||!movable(src.p,src.i,src.idx))return false;
+const a=pile(src.p,src.i),m=a.slice(src.idx);if(!canPlace(m,dp,di))return false;
+save();a.splice(src.idx);pile(dp,di).push(...m);
+if(dp==='found')S.score+=10;else if(src.p==='waste')S.score+=5;else if(src.p==='found')S.score=Math.max(0,S.score-15);
+if(src.p==='tab'&&a.length&&!a[a.length-1].up){a[a.length-1].up=true;S.score+=5}
+S.moves++;startT();if(S.found.every(f=>f.length===13)){S.won=true;stopT();fx=!RM}render();return true}
+function toFound(p,i){const a=pile(p,i);if(!a||!a.length)return false;for(let f=0;f<4;f++)if(move({p,i,idx:a.length-1},'found',f))return true;return false}
+function autoMove(p,i,idx){if(!movable(p,i,idx))return false;const a=pile(p,i);
+if(idx===a.length-1&&p!=='found'&&toFound(p,i))return true;if(p==='found')return false;
+const c=a[idx],o=[];for(let t=0;t<7;t++)if(!(p==='tab'&&t===i))o.push(t);
+for(const t of o)if(S.tab[t].length&&move({p,i,idx},'tab',t))return true;
+if(c.r===13&&!(p==='tab'&&idx===0))for(const t of o)if(!S.tab[t].length&&move({p,i,idx},'tab',t))return true;
+return false}
+function draw(){if(S.won)return;sel=null;
+if(S.stock.length){save();for(let k=0;k<S.n&&S.stock.length;k++){const c=S.stock.pop();c.up=true;S.waste.push(c)}}
+else if(S.waste.length){save();S.stock=S.waste.reverse().map(c=>(c.up=false,c));S.waste=[];S.score=Math.max(0,S.score-(S.n===1?100:20))}
+else return;S.moves++;startT();render()}
+const canAuto=()=>!S.won&&!S.stock.length&&!S.waste.length&&S.tab.every(t=>t.every(c=>c.up));
+function auto(){if(!canAuto())return;sel=null;const step=()=>{for(let t=0;t<7;t++)if(toFound('tab',t)){if(!S.won)RM?step():setTimeout(step,70);return}};step()}
+function render(){const W=F.clientWidth||720,g=Math.max(6,Math.round(W*.016)),cw=Math.floor(Math.min(84,(W-g*8)/7)),ch=Math.round(cw*1.42);
+$('k98s').style.setProperty('--cw',cw+'px');
+const X=c=>g+c*(cw+g),Y0=g,Y1=g*2+ch,fd=Math.round(ch*.11),fu=Math.round(ch*.26);let h='',maxY=Y1+ch;
+const slot=(p,i,x,y,t)=>{h+=`<div class="slot" data-pile="${p}" data-i="${i}" style="left:${x}px;top:${y}px;width:${cw}px;height:${ch}px">${t}</div>`};
+const card=(c,p,i,idx,x,y,z)=>{const at=`data-pile="${p}" data-i="${i}" data-idx="${idx}" style="left:${x}px;top:${y}px;z-index:${z}"`;
+if(!c.up){h+=`<div class="card back${p==='stock'?' stock':''}" ${at} aria-label="${p==='stock'?'deck':'face-down card'}"></div>`;return}
+const r=RK[c.r],u=SU[c.s],s=sel&&sel.p===p&&sel.i===i&&idx>=sel.idx;
+h+=`<div class="card${red(c)?' red':''}${s?' sel':''}" role="button" aria-label="${r} of ${NM[c.s]}" ${at}><div class="tl">${r}<br>${u}</div><div class="mid">${u}</div><div class="br">${r}<br>${u}</div></div>`};
+slot('stock',0,X(0),Y0,S.waste.length&&!S.stock.length?'↻':'');
+if(S.stock.length)card(S.stock[S.stock.length-1],'stock',0,S.stock.length-1,X(0),Y0,1);
+slot('waste',0,X(1),Y0,'');const wv=S.waste.slice(-S.n),wo=S.waste.length-wv.length;
+wv.forEach((c,k)=>card(c,'waste',0,wo+k,X(1)+k*Math.round(cw*.2),Y0,k+1));
+for(let f=0;f<4;f++){slot('found',f,X(3+f),Y0,'A');const a=S.found[f];if(a.length)card(a[a.length-1],'found',f,a.length-1,X(3+f),Y0,1)}
+for(let t=0;t<7;t++){slot('tab',t,X(t),Y1,'K');let y=Y1;S.tab[t].forEach((c,k)=>{card(c,'tab',t,k,X(t),y,k+1);maxY=Math.max(maxY,y+ch);y+=c.up?fu:fd})}
+if(S.won)h+=`<div class="dlg" role="dialog" aria-label="You win"><div class="tb"><span>Kiro 98 Solitaire</span></div><div class="body"><img src="${GU}" alt=""><div><b>You win!</b><br>Score ${S.score} &middot; ${secs}s &middot; ${S.moves} moves<br>Task completed successfully.</div></div><div class="act"><button data-act="new">Deal again</button></div></div>`;
+F.style.height=Math.max(maxY+g,Y1+ch+fu*12+g)+'px';F.innerHTML=h;
+if(fx){fx=false;for(let k=0;k<36;k++){const e=document.createElement('div');e.className='fx';e.textContent=SU[k%4];e.style.left=Math.random()*95+'%';e.style.color=k%4===1||k%4===2?'#ff5050':'#fff';e.style.animationDelay=Math.random()*.8+'s';F.appendChild(e);setTimeout(()=>e.remove(),4000)}}
+$('sScore').textContent='Score: '+S.score;$('sMoves').textContent='Moves: '+S.moves;$('sTime').textContent='Time: '+secs;
+$('bUndo').disabled=!U.length||S.won;$('bAuto').disabled=!canAuto();$('bDraw').setAttribute('aria-pressed',S.n===3)}
+function click(d){const now=Date.now(),a=pile(d.p,d.i),same=last&&last.p===d.p&&last.i===d.i&&last.idx===d.idx&&now-last.t<450;last={...d,t:now};
+if(same&&movable(d.p,d.i,d.idx)){last=null;sel=null;if(!autoMove(d.p,d.i,d.idx))render();return}
+if(sel){const s=sel;sel=null;if(move(s,d.p,d.i))return}
+if(movable(d.p,d.i,d.idx))sel={p:d.p,i:d.i,idx:d.idx};render()}
+F.addEventListener('pointerdown',e=>{if(e.button>0||e.target.closest('button'))return;const el=e.target.closest('[data-pile]');if(!el)return;
+const d={p:el.dataset.pile,i:+el.dataset.i,idx:el.dataset.idx===undefined?-1:+el.dataset.idx,x:e.clientX,y:e.clientY};
+e.preventDefault();if(d.p==='stock'){down=null;draw();return}
+down=d;if(movable(d.p,d.i,d.idx))try{F.setPointerCapture(e.pointerId)}catch(_){}});
+F.addEventListener('pointermove',e=>{if(!down||!movable(down.p,down.i,down.idx))return;const dx=e.clientX-down.x,dy=e.clientY-down.y;
+if(!drag){if(Math.abs(dx)+Math.abs(dy)<6)return;drag=[...F.querySelectorAll(`.card[data-pile="${down.p}"][data-i="${down.i}"]`)].filter(n=>+n.dataset.idx>=down.idx);drag.forEach((n,k)=>{n.classList.add('drag');n.style.zIndex=1000+k})}
+drag.forEach(n=>n.style.transform=`translate(${dx}px,${dy}px)`)});
+F.addEventListener('pointerup',e=>{const d=down;down=null;if(!d)return;
+if(drag){drag=null;sel=null;const hit=document.elementsFromPoint(e.clientX,e.clientY).find(n=>n.dataset&&n.dataset.pile&&!n.classList.contains('drag'));if(!(hit&&move(d,hit.dataset.pile,+hit.dataset.i)))render();return}
+click(d)});
+F.addEventListener('pointercancel',()=>{down=null;if(drag){drag=null;render()}});
+F.addEventListener('click',e=>{if(e.target.closest('[data-act="new"]'))deal()});
+$('bNew').onclick=deal;$('bUndo').onclick=undo;$('bAuto').onclick=auto;
+$('bDraw').onclick=()=>{S.n=S.n===1?3:1;deal()};
+$('bHelp').onclick=()=>{$('bHelp').setAttribute('aria-pressed',$('help').classList.toggle('on'))};
+addEventListener('resize',()=>render());
+if(window.K98_EMBED){const b=$('bClose');b.hidden=false;b.onclick=()=>parent.postMessage({type:'k98:close'},'*')}
+deal();
+</script>
